@@ -148,7 +148,7 @@ project/
 2. Ensure all model files are present
 3. Run the main script:
 ```bash
-python live2.py
+python live.py
 ```
 4. System will automatically:
     - Detect doors in the first frame

@@ -5,3 +5,5 @@ person_tracking.csv
 yolo11n.pt
 faces
 __pycache__
+depth_anything_v2\__pycache__
+depth_anything_v2/dinov2_layers/__pycache__
