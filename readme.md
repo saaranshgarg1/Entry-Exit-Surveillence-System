@@ -2,7 +2,6 @@
 
 A sophisticated computer vision system that combines person detection, face recognition, and depth-based door detection to track people entering and exiting through doorways.
 
-NOTE: This uses a modified version of InsightFace library. Please refer to [this section](#patching-insightface-library-for-optimal-performance)
 ## Core Features
 
 1. **Person Detection & Tracking**
@@ -45,6 +44,11 @@ NOTE: This uses a modified version of InsightFace library. Please refer to [this
    - Performs real-time face matching
    - Associates faces with detected persons
 
+4. **EnhancedFaceAnalysis**
+   - Custom wrapper around InsightFace's FaceAnalysis
+   - Adds optimized face processing method without modifying the library
+   - Improves performance by reusing detection results
+
 ### Key Functions
 
 - `associate_face_person()`: Links detected faces with person bounding boxes
@@ -84,6 +88,7 @@ project/
 ├── yolo11n.pt  
 ├── depth_anything_v2_vits.pth  
 ├── depth_anything_v2_vitl.pth  
+├── face_analysis_wrapper.py
 └── person_tracking.csv
 ```
 
@@ -149,26 +154,4 @@ python live2.py
     - Detect doors in the first frame
     - Begin tracking people
     - Log all entry/exit events
-  
-  ## Patching `InsightFace` library for optimal performance
-  Direct usage of `InsightFace` library was slightly inneficient, therefore I added a method in the `FaceAnalysis` class to use it more optimally.
-  ```python
-  def get2(self, img, bboxes, kpss):
-        if bboxes.shape[0] == 0:
-            return []
-        ret = []
-        for i in range(bboxes.shape[0]):
-            bbox = bboxes[i, 0:4]
-            det_score = bboxes[i, 4]
-            kps = None
-            if kpss is not None:
-                kps = kpss[i]
-            face = Face(bbox=bbox, kps=kps, det_score=det_score)
-            for taskname, model in self.models.items():
-                if taskname=='detection':
-                    continue
-                model.get(img, face)
-            ret.append(face)
-        return ret
-   ```
 

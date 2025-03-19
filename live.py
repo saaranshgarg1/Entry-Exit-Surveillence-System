@@ -470,8 +470,9 @@ def webcam_feed():
     depth = model_depth2.infer_image(frame[door_bbox[1]:door_bbox[3], door_bbox[0]:door_bbox[2]])
     avg_depth_door = np.mean(depth)
     
-    # Load faces
-    model_recog = insightface.app.FaceAnalysis(name="buffalo_sc", providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+    # Load faces - Using our wrapper class instead of direct InsightFace
+    from face_analysis_wrapper import EnhancedFaceAnalysis
+    model_recog = EnhancedFaceAnalysis(name="buffalo_sc", providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
     model_recog.prepare(ctx_id=0) 
     database = load_faces(model_recog)
     print(f"Loaded {len(database)} faces {database.keys()}")
