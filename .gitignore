@@ -4,3 +4,4 @@ depth2.csv
 person_tracking.csv
 yolo11n.pt
 faces
+__pycache__
