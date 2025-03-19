@@ -545,12 +545,12 @@ def webcam_feed():
                         # priqnt(face_data)
                         identity, min_dist = match_face(face_data, database)
                         dict_person_face[key] = [value[0], value[1], value[2], value[3], identity, min_dist, value[6]]
-                        cv2.putText(annotated_frame, f"{identity} ({min_dist:.2f}) : {"Inside" if value[6] else "Outside"}", 
+                        cv2.putText(annotated_frame, f"{identity} ({min_dist:.2f}) : {'Inside' if value[6] else 'Outside'}", 
                                 (int(value[0].xyxy[0][0]), int(value[0].xyxy[0][1]-10)), cv2.FONT_HERSHEY_SIMPLEX,
                                 1, (0, 255, 0) if value[6] else (0,0,255), 2)
                     else:
                         dict_person_face[key] = [value[0], value[1], value[2], value[3], "Unknown", 1, value[6]]
-                        cv2.putText(annotated_frame, f"Unknown :  : {"Inside" if value[6] else "Outside"}", 
+                        cv2.putText(annotated_frame, f"Unknown :  : {'Inside' if value[6] else 'Outside'}", 
                                 (int(value[0].xyxy[0][0]), int(value[0].xyxy[0][1]-10)), cv2.FONT_HERSHEY_SIMPLEX,
                                 1, (0, 255, 0) if value[6] else (0,0,255), 2)
                 # print("\r\r\rmode 1")
@@ -559,7 +559,7 @@ def webcam_feed():
             else:
                 dict_person_face = IOU
                 for key,value in dict_person_face.items():
-                    cv2.putText(annotated_frame, f"{value[4]} ({value[5]:.2f}) : {"Inside" if value[6] else "Outside"}", 
+                    cv2.putText(annotated_frame, f"{value[4]} ({value[5]:.2f}) : {'Inside' if value[6] else 'Outside'}", 
                                 (int(value[0].xyxy[0][0]), int(value[0].xyxy[0][1]-10)), cv2.FONT_HERSHEY_SIMPLEX,
                                 1, (0, 255, 0) if value[6] else (0,0,255), 2)
                 # print(dict_person_face)
