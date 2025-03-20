@@ -35,19 +35,24 @@ def webcam_feed():
     model_depth = DepthAnythingV2(encoder='vitl', features=256, out_channels=[256, 512, 1024, 1024]).to(device).eval()
     model_depth.load_state_dict(torch.load('depth_anything_v2_vitl.pth', map_location=device))
     frame = cap.read()[1]
-    door_bbox = detect_door(frame, model_depth) # Door detection
     
-    # Depth Load 2
-    model_depth2 = DepthAnythingV2(encoder='vits', features=64, out_channels=[48, 96, 192, 384]).to(device).eval()
-    model_depth2.load_state_dict(torch.load('depth_anything_v2_vits.pth', map_location=device))
-    depth = model_depth2.infer_image(frame[door_bbox[1]:door_bbox[3], door_bbox[0]:door_bbox[2]])
-    avg_depth_door = np.mean(depth)
+    # Door detection with error handling
+    door_bbox = detect_door(frame, model_depth)
+    if door_bbox is None:
+        print("No door detected. ")
+        door_bbox = [0, 0, 0, 0]
+    else: 
+        # Depth Load 2
+        model_depth2 = DepthAnythingV2(encoder='vits', features=64, out_channels=[48, 96, 192, 384]).to(device).eval()
+        model_depth2.load_state_dict(torch.load('depth_anything_v2_vits.pth', map_location=device))
+        depth = model_depth2.infer_image(frame[door_bbox[1]:door_bbox[3], door_bbox[0]:door_bbox[2]])
+        avg_depth_door = np.mean(depth)
     
     # Load faces
     model_recog = EnhancedFaceAnalysis(name="buffalo_sc", providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
     model_recog.prepare(ctx_id=0) 
     database = load_faces(model_recog)
-    print(f"Loaded {len(database)} faces {database.keys()}")
+    # print(f"Loaded {len(database)} faces {database.keys()}")
     
     # Previous values
     prev_frame_time = time.perf_counter()
@@ -193,7 +198,7 @@ def webcam_feed():
                         
                         door_activity_frames = 0
                     door_activity_frames += 1
-                        
+            
             
             # Display frame
             cv2.imshow('Object Detection', annotated_frame)

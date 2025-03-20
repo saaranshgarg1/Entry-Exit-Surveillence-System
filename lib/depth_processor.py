@@ -142,13 +142,13 @@ def detect_door_from_depth(depth_map):
             bound = cv2.boundingRect(approx2)
             result = cv2.putText(result, f"{ len(approx2) }", (bound[0], bound[1]+10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         
-        print(len(approx), len(approx2))
-        print(cv2.boundingRect(approx)[2]*cv2.boundingRect(approx)[3], cv2.boundingRect(approx2)[2]*cv2.boundingRect(approx2)[3])
+        # print(len(approx), len(approx2))
+        # print(cv2.boundingRect(approx)[2]*cv2.boundingRect(approx)[3], cv2.boundingRect(approx2)[2]*cv2.boundingRect(approx2)[3])
     
-    try:
-        print(cv2.boundingRect(door_contour)[2]*cv2.boundingRect(door_contour)[3])
-    except:
-        pass
+    # try:
+    #     print(cv2.boundingRect(door_contour)[2]*cv2.boundingRect(door_contour)[3])
+    # except:
+    #     pass
     
     cv2.imshow("All Contours", depth_normalized)
     if door_contour is not None:
@@ -167,7 +167,7 @@ def detect_door_from_depth(depth_map):
         y1 = max(0, y - margin_h)
         x2 = min(depth_normalized.shape[1], x + w + margin_w)
         y2 = min(depth_normalized.shape[0], y + h + margin_h)
-        print(x1, y1, x2, y2)
+        # print(x1, y1, x2, y2)
         return (x1, y1, x2, y2)
     else:
         return None
@@ -176,9 +176,9 @@ def detect_door(frame, model):
     perf_counter = time.perf_counter()
     depth_map = model.infer_image(frame)
     np.savetxt("depth2.csv", depth_map, delimiter=",")
-    print(depth_map) # Prints max element of the depth map
-    print(np.max(depth_map))
-    print(np.min(depth_map))
+    # print(depth_map) # Prints max element of the depth map
+    # print(np.max(depth_map))
+    # print(np.min(depth_map))
     print(f"Time taken for depth map: {time.perf_counter() - perf_counter:.5f}")
     
     # Import here to avoid circular imports
