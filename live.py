@@ -14,11 +14,11 @@ import numpy as np
 from ultralytics import YOLO
 
 # Import our modules
-from depth_processor import DepthAnythingV2, detect_door, visualize_depth_heatmap
-from person_tracker import PersonTracker
-from face_recognition import load_faces, match_face, associate_face_person
-from utils import calculate_IOU, IOU_tracker
-from face_analysis_wrapper import EnhancedFaceAnalysis
+from lib.depth_processor import DepthAnythingV2, detect_door, visualize_depth_heatmap
+from lib.person_tracker import PersonTracker
+from lib.face_recognition import load_faces, match_face, associate_face_person
+from lib.utils import calculate_IOU, IOU_tracker
+from lib.face_analysis_wrapper import EnhancedFaceAnalysis
 
 def webcam_feed():
     # init webcam

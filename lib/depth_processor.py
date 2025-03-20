@@ -182,7 +182,7 @@ def detect_door(frame, model):
     print(f"Time taken for depth map: {time.perf_counter() - perf_counter:.5f}")
     
     # Import here to avoid circular imports
-    from visualization import visualize_depth_with_matplotlib
+    from .visualization import visualize_depth_with_matplotlib
     visualize_depth_with_matplotlib(depth_map)
     
     door_candidates = detect_door_from_depth(depth_map)
